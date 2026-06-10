@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Gambar</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#f0f0f0;
+    padding:20px;
+}
+.container{
+    max-width:400px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+img{
+    width:250px;
+    height:250px;
+    object-fit:cover;
+    border-radius:10px;
+}
+input{
+    padding:10px;
+    width:80%;
+    margin-top:10px;
+}
+button{
+    padding:10px 20px;
+    margin-top:10px;
+    cursor:pointer;
+}
+#pesan{
+    margin-top:10px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎮 Tebak Gambar</h1>
+
+    <h3>Skor: <span id="skor">0</span></h3>
+
+    <img id="gambar" src="" alt="gambar">
+
+    <br>
+
+    <input type="text" id="jawaban" placeholder="Masukkan jawaban">
+
+    <br>
+
+    <button onclick="cekJawaban()">Jawab</button>
+
+    <p id="pesan"></p>
+</div>
+
+<script>
+
+const data = [
+{
+gambar:"https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg",
+jawaban:"air terjun"
+},
+{
+gambar:"https://upload.wikimedia.org/wikipedia/commons/9/99/Black_square.jpg",
+jawaban:"hitam"
+},
+{
+gambar:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg",
+jawaban:"kucing"
+},
+{
+gambar:"https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
+jawaban:"burung"
+}
+];
+
+let skor = 0;
+let soal = 0;
+
+const gambar = document.getElementById("gambar");
+const pesan = document.getElementById("pesan");
+
+function tampilSoal(){
+    gambar.src = data[soal].gambar;
+}
+
+function cekJawaban(){
+    let input = document.getElementById("jawaban").value.toLowerCase();
+
+    if(input === data[soal].jawaban){
+        skor += 10;
+        pesan.innerHTML = "✅ Benar!";
+    }else{
+        pesan.innerHTML = "❌ Salah! Jawaban: " + data[soal].jawaban;
+    }
+
+    document.getElementById("skor").innerHTML = skor;
+
+    soal++;
+
+    if(soal >= data.length){
+        setTimeout(()=>{
+            alert("Game Selesai!\nSkor Akhir: " + skor);
+            location.reload();
+        },500);
+    }else{
+        setTimeout(()=>{
+            tampilSoal();
+            document.getElementById("jawaban").value="";
+            pesan.innerHTML="";
+        },1000);
+    }
+}
+
+tampilSoal();
+
+</script>
+
+</body>
+</html>
